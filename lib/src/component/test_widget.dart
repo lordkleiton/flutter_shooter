@@ -61,12 +61,6 @@ class _TestWidgetState extends State<TestWidget> {
               left: appSizes.midWidth - 50,
               child: Column(
                 children: [
-                  Text(
-                    angle.toStringAsFixed(4) + 'º',
-                    textDirection: TextDirection.ltr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
-                  ),
                   Transform.rotate(
                     angle: auxAngle,
                     child: Container(
@@ -76,6 +70,15 @@ class _TestWidgetState extends State<TestWidget> {
                     ),
                   ),
                 ],
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              child: Text(
+                angle.toStringAsFixed(4) + 'º',
+                textDirection: TextDirection.ltr,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],
