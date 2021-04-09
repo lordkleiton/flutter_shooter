@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shooter/test_widget.dart';
+import 'package:flutter_shooter/router.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Shooter',
+      onGenerateRoute: AppRouter.routeGenerator,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: TestWidget(),
     );
   }
 }
