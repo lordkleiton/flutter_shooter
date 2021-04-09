@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -97,25 +96,26 @@ class AppCanvas extends CustomPainter {
         Paint()..color = Colors.accents.first);
   }
 
-  void drawGrid(Canvas canvas, Size size) {
-    drawVerticalGrid(canvas, size);
+  void drawGrid(Canvas canvas, Size size,
+      {int verticalLines = 4, int horizontalLines = 4}) {
+    drawVerticalGrid(canvas, size, verticalLines);
 
-    drawHorizontalGrid(canvas, size);
+    drawHorizontalGrid(canvas, size, horizontalLines);
   }
 
-  void drawVerticalGrid(Canvas canvas, Size size) {
-    final double horizontal = size.width / 4;
+  void drawVerticalGrid(Canvas canvas, Size size, int qtyLines) {
+    final double horizontal = size.width / qtyLines;
 
-    drawLine(canvas, horizontal, 0, horizontal, size.height);
-    drawLine(canvas, horizontal * 2, 0, horizontal * 2, size.height);
-    drawLine(canvas, horizontal * 3, 0, horizontal * 3, size.height);
+    for (int i = 1; i < qtyLines; i++) {
+      drawLine(canvas, horizontal * i, 0, horizontal * i, size.height);
+    }
   }
 
-  void drawHorizontalGrid(Canvas canvas, Size size) {
-    final double vertical = size.height / 4;
+  void drawHorizontalGrid(Canvas canvas, Size size, int qtyLines) {
+    final double vertical = size.height / qtyLines;
 
-    drawLine(canvas, 0, vertical, size.width, vertical);
-    drawLine(canvas, 0, vertical * 2, size.width, vertical * 2);
-    drawLine(canvas, 0, vertical * 3, size.width, vertical * 3);
+    for (int i = 1; i < qtyLines; i++) {
+      drawLine(canvas, 0, vertical * i, size.width, vertical * i);
+    }
   }
 }
