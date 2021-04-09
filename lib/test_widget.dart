@@ -54,13 +54,18 @@ class _TestWidgetState extends State<TestWidget> {
         ),
         child: Column(
           children: [
+            Text(
+              angle.toStringAsFixed(4) + 'º',
+              textDirection: TextDirection.ltr,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
+            ),
             Transform.rotate(
               angle: auxAngle,
-              child: Text(
-                angle.toStringAsFixed(4) + 'º',
-                textDirection: TextDirection.ltr,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white),
+              child: Container(
+                width: 100,
+                height: 50,
+                color: Colors.blue,
               ),
             ),
           ],
