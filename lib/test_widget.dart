@@ -1,8 +1,11 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_shooter/app_sizes.dart';
 import 'package:flutter_shooter/utils.dart';
+
+import 'utils.dart';
 
 class TestWidget extends StatefulWidget {
   @override
@@ -11,26 +14,37 @@ class TestWidget extends StatefulWidget {
 
 class _TestWidgetState extends State<TestWidget> {
   Offset offset = Offset.zero;
+  Offset normalOffset = Offset.zero;
 
   @override
   Widget build(BuildContext context) {
     final AppSizes appSizes = AppSizes(context: context);
-    final Offset start = Offset(appSizes.width / 2, appSizes.height);
+    final double middle = appSizes.midWidth;
+    final Offset start = Offset(middle, appSizes.height);
 
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
         final Offset position = details.globalPosition;
-        final double x = normalize(position.dx, 0, appSizes.width);
-        final double y = normalize(position.dy, 0, appSizes.height);
+        final bool positive = position.dx >= middle;
+        final double x = positive ? position.dx - middle : middle - position.dx;
+        final double normalizedX = normalize(x, 0, middle);
+        final double normalizedY = normalize(position.dy, 0, appSizes.height);
+
+        final double line =
+            sqrt(normalizedX * normalizedX) + (normalizedY * normalizedY);
+
+        print('$normalizedX, $normalizedY, $line');
 
         setState(() {
           offset = position;
+          normalOffset = Offset(normalizedX, normalizedY);
         });
       },
       child: CustomPaint(
         painter: AppCanvas(
           end: offset,
           start: start,
+          display: normalOffset,
         ),
       ),
     );
@@ -40,8 +54,9 @@ class _TestWidgetState extends State<TestWidget> {
 class AppCanvas extends CustomPainter {
   final Offset start;
   final Offset end;
+  final Offset display;
 
-  AppCanvas({required this.start, required this.end});
+  AppCanvas({required this.start, required this.end, required this.display});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -50,13 +65,16 @@ class AppCanvas extends CustomPainter {
     final paragraph = ParagraphBuilder(
       ParagraphStyle(fontSize: 15),
     )..addText(
-        '(x: ${end.dx.toStringAsFixed(2)}, y: ${end.dy.toStringAsFixed(2)})');
+        '(x: ${display.dx.toStringAsFixed(2)}, y: ${display.dy.toStringAsFixed(2)})');
 
     final blabla = paragraph.build();
 
-    blabla.layout(ParagraphConstraints(width: 300));
+    final double paragraphWidth = 110;
 
-    canvas.drawParagraph(blabla, end);
+    blabla.layout(ParagraphConstraints(width: paragraphWidth));
+
+    canvas.drawParagraph(blabla,
+        Offset((size.width / 2) - (paragraphWidth / 2), size.height / 2));
   }
 
   @override
