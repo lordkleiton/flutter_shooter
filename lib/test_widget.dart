@@ -14,12 +14,14 @@ class _TestWidgetState extends State<TestWidget> {
   Offset offset = Offset.zero;
   Offset normalOffset = Offset.zero;
   double angle = 0;
+  bool toRight = false;
 
   @override
   Widget build(BuildContext context) {
     final AppSizes appSizes = AppSizes(context: context);
     final double middle = appSizes.midWidth;
     final Offset start = Offset(middle, appSizes.height);
+    final double auxAngle = (90 - angle).degreeToRadian();
 
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
@@ -34,13 +36,14 @@ class _TestWidgetState extends State<TestWidget> {
         final double sin = oppositeLeg / hypotenuse;
         final double angleRadians = asin(sin);
         final double angleDegrees = angleRadians.radianToDegree();
-
-        print(angleDegrees);
+        final double correctedAngle =
+            positive ? angleDegrees : 180 - angleDegrees;
 
         setState(() {
           offset = position;
           normalOffset = Offset(adjacentLeg, oppositeLeg);
-          angle = angleDegrees;
+          angle = correctedAngle;
+          toRight = positive;
         });
       },
       child: CustomPaint(
@@ -49,11 +52,18 @@ class _TestWidgetState extends State<TestWidget> {
           start: start,
           display: normalOffset,
         ),
-        child: Text(
-          angle.toStringAsFixed(4) + 'º',
-          textDirection: TextDirection.ltr,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white),
+        child: Column(
+          children: [
+            Transform.rotate(
+              angle: auxAngle,
+              child: Text(
+                angle.toStringAsFixed(4) + 'º',
+                textDirection: TextDirection.ltr,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );
