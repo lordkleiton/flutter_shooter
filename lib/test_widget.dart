@@ -1,10 +1,9 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_shooter/app_sizes.dart';
-import 'package:flutter_shooter/utils.dart';
-
-import 'utils.dart';
+import 'package:flutter_shooter/extensions.dart';
 
 class TestWidget extends StatefulWidget {
   @override
@@ -27,23 +26,19 @@ class _TestWidgetState extends State<TestWidget> {
         final bool positive = position.dx >= middle;
         final double x = positive ? position.dx - middle : middle - position.dx;
         final double y = start.dy - position.dy;
-        final double normalizedX = normalize(x, 0, middle);
-        final double normalizedY = normalize(y, 0, appSizes.height);
-        /* final double squareX = x * x;
-        final double squareY = y * y;
-        final double line =
-            sqrt(normalizedX * normalizedX) + (normalizedY * normalizedY);
-        final double line2 = normalize(line, 0, 2);
-        final double sin = normalizedX >= 0.1
-            ? double.parse(normalizedY.toStringAsPrecision(2)) /
-                double.parse(line2.toStringAsPrecision(2))
-            : 1;
+        final double adjacentLeg = x.normalize(0, middle);
+        final double oppositeLeg = y.normalize(0, appSizes.height);
+        final double hypotenuse =
+            sqrt(adjacentLeg.squared() + oppositeLeg.squared());
+        final double sin = oppositeLeg / hypotenuse;
+        final double angleRadians = asin(sin);
+        final double angleDegrees = angleRadians.radianToDegree();
 
-        print(sin); */
+        print(angleDegrees);
 
         setState(() {
           offset = position;
-          normalOffset = Offset(normalizedX, normalizedY);
+          normalOffset = Offset(adjacentLeg, oppositeLeg);
         });
       },
       child: CustomPaint(
