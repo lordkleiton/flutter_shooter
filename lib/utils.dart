@@ -15,3 +15,5 @@ double denormalize(double value, double min, double max) {
 
   return result;
 }
+
+double getPercentage(double a, double b) => a * (b / 100);
