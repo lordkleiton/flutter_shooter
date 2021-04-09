@@ -1,7 +1,7 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 extension DoubleUtils on double {
-  double radianToDegree() => this * (180 / pi);
+  double radianToDegree() => this * (180 / math.pi);
 }
 
 extension NumberUtils on num {
@@ -24,4 +24,8 @@ extension NumberUtils on num {
   }
 
   double getPercentage(double percentage) => this * (percentage / 100);
+
+  num squared() => this * this;
+
+  num sqrt() => math.sqrt(this);
 }
