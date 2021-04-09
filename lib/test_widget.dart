@@ -13,6 +13,7 @@ class TestWidget extends StatefulWidget {
 class _TestWidgetState extends State<TestWidget> {
   Offset offset = Offset.zero;
   Offset normalOffset = Offset.zero;
+  double angle = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,7 @@ class _TestWidgetState extends State<TestWidget> {
         setState(() {
           offset = position;
           normalOffset = Offset(adjacentLeg, oppositeLeg);
+          angle = angleDegrees;
         });
       },
       child: CustomPaint(
@@ -46,6 +48,12 @@ class _TestWidgetState extends State<TestWidget> {
           end: offset,
           start: start,
           display: normalOffset,
+        ),
+        child: Text(
+          angle.toStringAsFixed(4) + 'º',
+          textDirection: TextDirection.ltr,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white),
         ),
       ),
     );
