@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 extension DoubleUtils on double {
   double radianToDegree() => this * (180 / math.pi);
+
+  double degreeToRadian() => this / (180 / math.pi);
 }
 
 extension NumberUtils on num {
