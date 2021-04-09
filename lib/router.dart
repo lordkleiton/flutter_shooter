@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shooter/routes.dart';
-import 'package:flutter_shooter/test_widget.dart';
+import 'package:flutter_shooter/src/view/home.dart';
 
 abstract class AppRouter {
   static Route<dynamic> routeGenerator(RouteSettings settings) {
@@ -11,7 +11,7 @@ abstract class AppRouter {
 
     switch (settings.name) {
       case AppRoutes.home:
-        return _builder(TestWidget());
+        return _builder(HomeView());
       default:
         return _builder(_err());
     }
