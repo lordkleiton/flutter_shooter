@@ -27,13 +27,20 @@ class _TestWidgetState extends State<TestWidget> {
         final Offset position = details.globalPosition;
         final bool positive = position.dx >= middle;
         final double x = positive ? position.dx - middle : middle - position.dx;
+        final double y = start.dy - position.dy;
         final double normalizedX = normalize(x, 0, middle);
-        final double normalizedY = normalize(position.dy, 0, appSizes.height);
-
+        final double normalizedY = normalize(y, 0, appSizes.height);
+        /* final double squareX = x * x;
+        final double squareY = y * y;
         final double line =
             sqrt(normalizedX * normalizedX) + (normalizedY * normalizedY);
+        final double line2 = normalize(line, 0, 2);
+        final double sin = normalizedX >= 0.1
+            ? double.parse(normalizedY.toStringAsPrecision(2)) /
+                double.parse(line2.toStringAsPrecision(2))
+            : 1;
 
-        print('$normalizedX, $normalizedY, $line');
+        print(sin); */
 
         setState(() {
           offset = position;
@@ -60,16 +67,19 @@ class AppCanvas extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    drawGrid(canvas, size);
+
+    //linha do ponteiro
     canvas.drawLine(start, end, Paint()..color = Colors.accents.first);
 
     final paragraph = ParagraphBuilder(
       ParagraphStyle(fontSize: 15),
     )..addText(
-        '(x: ${display.dx.toStringAsFixed(2)}, y: ${display.dy.toStringAsFixed(2)})');
+        '(x: ${display.dx.toStringAsFixed(4)}, y: ${display.dy.toStringAsFixed(4)})');
 
     final blabla = paragraph.build();
 
-    final double paragraphWidth = 110;
+    final double paragraphWidth = 140;
 
     blabla.layout(ParagraphConstraints(width: paragraphWidth));
 
@@ -80,4 +90,32 @@ class AppCanvas extends CustomPainter {
   @override
   bool shouldRepaint(covariant AppCanvas oldDelegate) =>
       oldDelegate.end.dx != end.dx || oldDelegate.end.dy != end.dy;
+
+  void drawLine(
+      Canvas canvas, double xStart, double yStart, double xEnd, double yEnd) {
+    canvas.drawLine(Offset(xStart, yStart), Offset(xEnd, yEnd),
+        Paint()..color = Colors.accents.first);
+  }
+
+  void drawGrid(Canvas canvas, Size size) {
+    drawVerticalGrid(canvas, size);
+
+    drawHorizontalGrid(canvas, size);
+  }
+
+  void drawVerticalGrid(Canvas canvas, Size size) {
+    final double horizontal = size.width / 4;
+
+    drawLine(canvas, horizontal, 0, horizontal, size.height);
+    drawLine(canvas, horizontal * 2, 0, horizontal * 2, size.height);
+    drawLine(canvas, horizontal * 3, 0, horizontal * 3, size.height);
+  }
+
+  void drawHorizontalGrid(Canvas canvas, Size size) {
+    final double vertical = size.height / 4;
+
+    drawLine(canvas, 0, vertical, size.width, vertical);
+    drawLine(canvas, 0, vertical * 2, size.width, vertical * 2);
+    drawLine(canvas, 0, vertical * 3, size.width, vertical * 3);
+  }
 }
