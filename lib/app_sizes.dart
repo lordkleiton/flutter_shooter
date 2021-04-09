@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'utils.dart';
+import 'package:flutter_shooter/extensions.dart';
 
 class AppSizes {
   final BuildContext context;
@@ -12,8 +12,8 @@ class AppSizes {
 
   AppSizes({required this.context});
 
-  double responsiveWidth(double percentage) => getPercentage(width, percentage);
+  double responsiveWidth(double percentage) => width.getPercentage(percentage);
 
   double responsiveHeight(double percentage) =>
-      getPercentage(height, percentage);
+      height.getPercentage(percentage);
 }
