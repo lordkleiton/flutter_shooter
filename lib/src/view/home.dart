@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shooter/app_sizes.dart';
-import 'package:flutter_shooter/src/component/test_widget.dart';
+import 'package:flutter_shooter/src/component/base_board.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -12,7 +12,7 @@ class HomeView extends StatelessWidget {
         color: Colors.black,
         width: appSizes.width,
         height: appSizes.height,
-        child: TestWidget(),
+        child: BaseBoardComponent(),
       ),
     );
   }
