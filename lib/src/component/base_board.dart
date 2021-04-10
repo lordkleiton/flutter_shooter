@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -72,9 +72,9 @@ class _BaseBoardComponentState extends State<BaseBoardComponent> {
     final double adjacentLeg = x.normalize(0, middle);
     final double oppositeLeg = y.normalize(0, appSizes.height);
     final double hypotenuse =
-        sqrt(adjacentLeg.squared() + oppositeLeg.squared());
+        math.sqrt(adjacentLeg.squared() + oppositeLeg.squared());
     final double sin = oppositeLeg / hypotenuse;
-    final double angleRadians = asin(sin);
+    final double angleRadians = math.asin(sin);
     final double angleDegrees = angleRadians.radianToDegree();
     final double correctedAngle = positive ? angleDegrees : 180 - angleDegrees;
 
