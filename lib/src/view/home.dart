@@ -12,7 +12,9 @@ class HomeView extends StatelessWidget {
         color: Colors.black,
         width: appSizes.width,
         height: appSizes.height,
-        child: BaseBoardComponent(),
+        child: BaseBoardComponent(
+          appSizes: appSizes,
+        ),
       ),
     );
   }
